@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList, ActivityIndicator, Text, View, Button  } from 'react-native';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
+import { createStackNavigator, createAppContainer, StackNavigator } from 'react-navigation';
 import CurrentRaceInfo from './CurrentRaceInfo';
 
 export default class CurrentSeason extends React.Component {
@@ -28,15 +28,17 @@ export default class CurrentSeason extends React.Component {
           });
       }
       render(){
+        const {navigate} = this.props.navigation;
         return(
-          <View style={{flex: 1, paddingTop:20}}>
-            <Text>{this.state.season} Race Year</Text>
+          <View>
               <FlatList
                 data={this.state.races}
+                keyExtractor={(item, index) => 'key'+index}
                 renderItem={({item}) => 
                 <Button
                   title={item.raceName}
-                  onPresss={() => console.log("hello")}></Button>}
+                  onPress={() => this.props.navigation.navigate('CurrentRaceInfo')}
+                />}
               />
           </View>
         );
