@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, ActivityIndicator, Text, View, Button  } from 'react-native';
+import { StyleSheet, FlatList, ActivityIndicator, Text, View, Button, TouchableHighlight  } from 'react-native';
 import { createStackNavigator, createAppContainer, StackNavigator } from 'react-navigation';
 import CurrentRaceInfo from './CurrentRaceInfo';
 
@@ -35,12 +35,25 @@ export default class CurrentSeason extends React.Component {
                 data={this.state.races}
                 keyExtractor={(item, index) => 'key'+index}
                 renderItem={({item}) => 
-                <Button
-                  title={item.raceName}
-                  onPress={() => this.props.navigation.navigate('CurrentRaceInfo')}
-                />}
+                <TouchableHighlight
+                 onPress={() => this.props.navigation.navigate('CurrentRaceInfo', {race: item.Circuit.circuitId})}>
+                 <Text style={styles.item}>{item.raceName} {item.date}</Text>
+                </TouchableHighlight>
+                }
               />
           </View>
         );
       }
 }
+
+const styles = StyleSheet.create({
+  container: {
+   flex: 1,
+   paddingTop: 22
+  },
+  item: {
+    padding: 10,
+    fontSize: 18,
+    height: 44,
+  },
+})
