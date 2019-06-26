@@ -1,6 +1,6 @@
 import React from 'react';
-import { FlatList, ActivityIndicator, Text, View, StyleSheet  } from 'react-native';
-import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-component';
+import { FlatList, ActivityIndicator, Text, View, StyleSheet, TouchableHighlight, ScrollView  } from 'react-native';
+import { DataTable } from 'react-native-paper';
 
 
 export default class CurrentRaceInfo extends React.Component {
@@ -32,38 +32,29 @@ export default class CurrentRaceInfo extends React.Component {
           items.status = items.status;
         }
       })
-      console.log(this.state.results[0])
+      //console.log(this.state.results[0])
       return (
         <View style={{ flex: 1 }}>
-          <Text style={styles.item}>POS DRIVER TIME/RET PTS</Text>
-          <Table>
-          </Table>
+          <ScrollView>
+            <DataTable>
+              <DataTable.Header>
+                <DataTable.Title>POS</DataTable.Title>
+                <DataTable.Title>DRIVER</DataTable.Title>
+                <DataTable.Title>TIME/RET</DataTable.Title>
+                <DataTable.Title>PTS</DataTable.Title>
+              </DataTable.Header>
+              {this.state.results.map(items=>
+                <DataTable.Row>
+                  <DataTable.Cell>{items.position}</DataTable.Cell>
+                  <DataTable.Cell>{items.Driver.code}</DataTable.Cell>
+                  <DataTable.Cell>{items.status}</DataTable.Cell>
+                  <DataTable.Cell>{items.points}</DataTable.Cell>
+                </DataTable.Row>
+              )}
+            </DataTable>
+          </ScrollView>
         </View>
       )
     }
     
 }
-
-const styles = StyleSheet.create({
-  container: {
-   flex: 1,
-   paddingTop: 22
-  },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
-  },
-})
-
-/* <Text style={styles.item}>POS DRIVER TIME/RET PTS</Text>
-          <FlatList
-              data={this.state.results}
-              keyExtractor={(item, index) => 'key'+index}
-              renderItem={({item}) => 
-              <View>
-                <Text style={styles.item}>{item.position} {item.Driver.code} {item.status} {item.points}</Text>
-              </View>
-              }
-            />
-            { more about the circuit, fastest lap } */

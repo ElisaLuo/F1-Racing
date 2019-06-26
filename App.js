@@ -8,9 +8,12 @@ import CurrentSeason from './components/CurrentSeason';
 import CurrentRaceInfo from './components/CurrentRaceInfo'
 import DriversByYears from './components/Drivers/DriversByYears';
 import RacesByYears from './components/Races/RacesByYears';
-import ChampionshipPerYear from './components/Championships/ChampionshipPerYear';
+import ConstructorsPerYear from './components/Constructors/ConstructorsPerYear';
 import DriversPerYear from './components/Drivers/DriversPerYear';
 import DriverInfo from './components/Drivers/DriverInfo';
+import RacesPerYear from './components/Races/RacesPerYear';
+import RaceInfo from './components/Races/RaceInfo';
+import ConstructorInfo from './components/Constructors/ConstructorInfo';
 
 const HomeStack = createStackNavigator(
   { 
@@ -21,8 +24,6 @@ const HomeStack = createStackNavigator(
     initialRouteName: 'Home',
   }
 );
-const HomeContainer = createAppContainer(HomeStack);
-
 const DriverStack = createStackNavigator(
   { 
     Home: DriversByYears,
@@ -33,10 +34,33 @@ const DriverStack = createStackNavigator(
     initialRouteName: 'Home',
   }
 );
+const RaceStack = createStackNavigator(
+  { 
+    Home: RacesByYears,
+    RacesPerYear: RacesPerYear,
+    RaceInfo: RaceInfo
+  },
+  {
+    initialRouteName: 'Home',
+  }
+);
+const ConstructorStack = createStackNavigator(
+  { 
+    Home: ConstructorsPerYear,
+    ConstructorInfo: ConstructorInfo
+  },
+  {
+    initialRouteName: 'Home',
+  }
+);
+
+const HomeContainer = createAppContainer(HomeStack);
 const DriverContainer = createAppContainer(DriverStack);
+const RaceContainer = createAppContainer(RaceStack);
+const ConstructorContainer = createAppContainer(ConstructorStack);
 
 const BottomNavigator = createMaterialBottomTabNavigator({
-  Home: {
+  Current: {
     screen: HomeContainer,
     navigationOptions:{
       tabBarLabel: "Home",
@@ -59,7 +83,7 @@ const BottomNavigator = createMaterialBottomTabNavigator({
     }
   },
   Race: {
-    screen: RacesByYears,
+    screen: RaceContainer,
     navigationOptions:{
       tabBarLabel: "Past Races",
       tabBarIcon: () =>(
@@ -69,10 +93,10 @@ const BottomNavigator = createMaterialBottomTabNavigator({
       )
     }
   },
-  Championship: {
-    screen: ChampionshipPerYear,
+  Constructor: {
+    screen: ConstructorContainer,
     navigationOptions:{
-      tabBarLabel: "Championships",
+      tabBarLabel: "Constructors",
       tabBarIcon: () =>(
         <View>
           <AntDesign style={[{color: "white"}]} size = {25} name="Trophy" />
@@ -81,13 +105,12 @@ const BottomNavigator = createMaterialBottomTabNavigator({
     }
   }
 }, {
-  initialRouteName: "Home",  
+  initialRouteName: "Current",  
   activeColor: '#f0edf6',  
   barStyle: { backgroundColor: '#F71C01' }, 
 });
 
 const Bottom = createAppContainer(BottomNavigator);
-
 
 export default class App extends React.Component {
 
