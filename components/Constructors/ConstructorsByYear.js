@@ -2,7 +2,7 @@ import React from 'react';
 import { FlatList, ActivityIndicator, Text, View, Button, TouchableHighlight, StyleSheet  } from 'react-native';
 
 
-export default class DriversByYears extends React.Component {
+export default class ConstructorsByYear extends React.Component {
     constructor(props){
         super(props);
         this.state ={ 
@@ -32,7 +32,7 @@ export default class DriversByYears extends React.Component {
                 keyExtractor={(item, index) => 'key'+index}
                 renderItem={({item}) => 
                 <TouchableHighlight
-                onPress={() => this.props.navigation.navigate('DriversPerYear', {year: item.season})}>
+                onPress={() => this.props.navigation.navigate('ConstructorsPerYear', {year: item.season})}>
                   <Text style={styles.item}>{item.season}</Text>  
                 </TouchableHighlight>
                 }

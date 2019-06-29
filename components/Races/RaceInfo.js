@@ -1,41 +1,61 @@
 import React from 'react';
-import { FlatList, ActivityIndicator, Text, View  } from 'react-native';
+import { FlatList, ActivityIndicator, Text, View, StyleSheet, TouchableHighlight, ScrollView  } from 'react-native';
+import { DataTable } from 'react-native-paper';
 
 
 export default class RaceInfo extends React.Component {
-
   constructor(props){
     super(props);
     this.state ={ 
-        rankings: [],
-        race: ""
+        results: []
     }
   }
-
+  
   componentDidMount(){
-    return fetch('http://ergast.com/api/f1/2019/1/results.json')
+    //console.log(this.props);
+    fetch(`https://ergast.com/api/f1/${this.props.navigation.state.params.year}/circuits/${this.props.navigation.state.params.race}/results.json`)
       .then((response) => response.json())
       .then((responseJson) => {
+        //console.log(responseJson.MRData.RaceTable.Races[0].Results[0].Time.time);
         this.setState({
-          rankings: responseJson.MRData.RaceTable.Races[0].Results,
-          race: responseJson.MRData.RaceTable.Races[0].season + " " + responseJson.MRData.RaceTable.Races[0].raceName
-        }, function(){
-        });
+          results: responseJson.MRData.RaceTable.Races[0].Results
+        }, function(){});
       })
       .catch((error) =>{
         console.error(error);
       });
   }
-
-  render(){
-    return(
-      <View style={{flex: 1, paddingTop:20}}>
-        <Text>{this.state.race}</Text>
-        <FlatList
-          data={this.state.rankings}
-          renderItem={({item}) => <Text>{item.position}. {item.Driver.givenName} {item.Driver.familyName}</Text>}
-        />
-      </View>
-    );
-  }
+    render() {
+      this.state.results.map(items=>{
+        if(items.status == "Finished"){
+          items.status = items.Time.time;
+        } else if(items.status !== "Finished"){
+          items.status = items.status;
+        }
+      })
+      //console.log(this.state.results[0])
+      return (
+        <View style={{ flex: 1 }}>
+          <ScrollView>
+            <DataTable>
+              <DataTable.Header>
+                <DataTable.Title>POS</DataTable.Title>
+                <DataTable.Title>DRIVER</DataTable.Title>
+                <DataTable.Title>TIME/RET</DataTable.Title>
+                <DataTable.Title>PTS</DataTable.Title>
+              </DataTable.Header>
+              {this.state.results.map(items=>
+                <DataTable.Row>
+                  <DataTable.Cell>{items.position}</DataTable.Cell>
+                  <DataTable.Cell>{items.Driver.code}</DataTable.Cell>
+                  <DataTable.Cell>{items.status}</DataTable.Cell>
+                  <DataTable.Cell>{items.points}</DataTable.Cell>
+                </DataTable.Row>
+              )}
+            </DataTable>
+          </ScrollView>
+        </View>
+      )
+    }
+    
 }

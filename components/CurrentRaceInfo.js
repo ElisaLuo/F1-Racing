@@ -12,6 +12,7 @@ export default class CurrentRaceInfo extends React.Component {
   }
   
   componentDidMount(){
+    //console.log(this.props);
     fetch(`https://ergast.com/api/f1/current/circuits/${this.props.navigation.state.params.race}/results.json`)
       .then((response) => response.json())
       .then((responseJson) => {

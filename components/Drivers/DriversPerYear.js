@@ -31,7 +31,8 @@ export default class DriversPerYear extends React.Component {
             data={this.state.drivers}
             keyExtractor={(item, index) => 'key'+index}
             renderItem={({item}) => 
-            <TouchableHighlight>
+            <TouchableHighlight
+            onPress={() => this.props.navigation.navigate('DriverInfo', {driver: item.Driver.driverId, year: this.props.navigation.state.params.year, position: item.position})}>
               <Text style={styles.item}>{item.position} {item.Driver.givenName} {item.Driver.familyName}</Text>
             </TouchableHighlight>
             }

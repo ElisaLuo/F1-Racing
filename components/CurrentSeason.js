@@ -36,7 +36,7 @@ export default class CurrentSeason extends React.Component {
                 keyExtractor={(item, index) => 'key'+index}
                 renderItem={({item}) => 
                 <TouchableHighlight
-                 onPress={() => this.props.navigation.navigate('CurrentRaceInfo', {race: item.Circuit.circuitId})}>
+                 onPress={() => this.props.navigation.navigate('CurrentInfo', {race: item.Circuit.circuitId})}>
                  <Text style={styles.item}>{item.raceName} {item.date}</Text>
                 </TouchableHighlight>
                 }
