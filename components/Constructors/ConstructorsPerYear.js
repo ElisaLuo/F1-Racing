@@ -32,8 +32,14 @@ export default class ConstructorsPerYear extends React.Component {
             keyExtractor={(item, index) => 'key'+index}
             renderItem={({item}) => 
             <TouchableHighlight
-            onPress={() => this.props.navigation.navigate('ConstructorInfo')}>
-              <Text style={styles.item}>{item.poistion} {item.Constructor.name}</Text>
+            onPress={() => this.props.navigation.navigate('ConstructorInfo', {
+              constructor: item.Constructor.constructorId, 
+              year: this.props.navigation.state.params.year, 
+              constructorName: item.Constructor.name,
+              position: item.position, 
+              points: item.points, 
+              wins: item.wins})}>
+              <Text style={styles.item}>{item.position} {item.Constructor.name}</Text>
             </TouchableHighlight>
             }
           />

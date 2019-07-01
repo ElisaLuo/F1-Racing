@@ -11,7 +11,7 @@ export default class CurrentQualifyingInfo extends React.Component {
       }
       
       componentDidMount(){
-        console.log(this.props);
+        //console.log(this.props);
         fetch(`https://ergast.com/api/f1/current/circuits/${this.props.navigation.state.params.race}/qualifying.json`)
           .then((response) => response.json())
           .then((responseJson) => {
