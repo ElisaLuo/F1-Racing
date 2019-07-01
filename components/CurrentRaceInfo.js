@@ -7,7 +7,7 @@ export default class CurrentRaceInfo extends React.Component {
   constructor(props){
     super(props);
     this.state ={ 
-        results: []
+        results: [],
     }
   }
   
@@ -44,10 +44,10 @@ export default class CurrentRaceInfo extends React.Component {
                 <DataTable.Title>TIME/RET</DataTable.Title>
                 <DataTable.Title>PTS</DataTable.Title>
               </DataTable.Header>
-              {this.state.results.map(items=>
-                <DataTable.Row>
+              {this.state.results.map((items, index)=>
+                <DataTable.Row key={index}>
                   <DataTable.Cell>{items.position}</DataTable.Cell>
-                  <DataTable.Cell>{items.Driver.code}</DataTable.Cell>
+                  <DataTable.Cell>{items.Driver.familyName}</DataTable.Cell>
                   <DataTable.Cell>{items.status}</DataTable.Cell>
                   <DataTable.Cell>{items.points}</DataTable.Cell>
                 </DataTable.Row>

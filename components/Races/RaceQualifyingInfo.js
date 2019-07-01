@@ -11,17 +11,22 @@ export default class RaceQualifyingInfo extends React.Component {
       }
       
       componentDidMount(){
-        //console.log(this.props);
         fetch(`https://ergast.com/api/f1/${this.props.navigation.state.params.year}/circuits/${this.props.navigation.state.params.race}/qualifying.json`)
           .then((response) => response.json())
           .then((responseJson) => {
-            //console.log(responseJson.MRData.RaceTable.Races[0].Results[0].Time.time);
-            this.setState({
-              results: responseJson.MRData.RaceTable.Races[0].QualifyingResults
-            }, function(){});
+            console.log("hit")
+            if(responseJson.MRData.RaceTable.Races[0] == undefined){
+              this.setState({
+                results: ["No Results"]
+              }, function(){});
+            } else if(responseJson.MRData.RaceTable.Races[0].QualifyingResults !== undefined){
+              this.setState({
+                results: responseJson.MRData.RaceTable.Races[0].QualifyingResults
+              }, function(){});
+            }
           })
           .catch((error) =>{
-            console.error(error);
+            console.error("Error" + error);
           });
       }
         render() {
@@ -36,7 +41,13 @@ export default class RaceQualifyingInfo extends React.Component {
               items.Q1 = "--";
             }
           })
-          //console.log(this.state.results[0])
+          if(this.state.results[0] == "No Results"){
+            return(
+              <View style={{ flex: 1 }}>
+                <Text>Sorry, no results found</Text>
+              </View>
+            )
+          }
           return (
             <View style={{ flex: 1 }}>
               <ScrollView>
@@ -48,10 +59,10 @@ export default class RaceQualifyingInfo extends React.Component {
                     <DataTable.Title>Q2</DataTable.Title>
                     <DataTable.Title>Q3</DataTable.Title>
                   </DataTable.Header>
-                  {this.state.results.map(items=>
-                    <DataTable.Row>
+                  {this.state.results.map((items, index)=>
+                    <DataTable.Row key={index}>
                       <DataTable.Cell>{items.position}</DataTable.Cell>
-                      <DataTable.Cell>{items.Driver.code}</DataTable.Cell>
+                      <DataTable.Cell>{items.Driver.familyName}</DataTable.Cell>
                       <DataTable.Cell>{items.Q1}</DataTable.Cell>
                       <DataTable.Cell>{items.Q2}</DataTable.Cell>
                       <DataTable.Cell>{items.Q3}</DataTable.Cell>

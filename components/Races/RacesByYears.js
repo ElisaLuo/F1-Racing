@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList, ActivityIndicator, Text, View, Button, TouchableHighlight, StyleSheet  } from 'react-native';
-
+import { AntDesign } from '@expo/vector-icons';
 
 export default class RacesByYears extends React.Component {
     constructor(props){
@@ -34,7 +34,10 @@ export default class RacesByYears extends React.Component {
                 renderItem={({item}) => 
                 <TouchableHighlight
                 onPress={() => this.props.navigation.navigate('RacesPerYear', {year: item.season})}>
-                  <Text style={styles.item}>{item.season}</Text>  
+                  <View style={styles.container}>
+                   <Text style={styles.item}>{item.season} Season</Text>  
+                    <AntDesign style={styles.icon} size = {25} name="right" />
+                  </View>
                 </TouchableHighlight>
                 }
               />
@@ -46,11 +49,17 @@ export default class RacesByYears extends React.Component {
 const styles = StyleSheet.create({
   container: {
    flex: 1,
-   paddingTop: 22
+   padding: 20,
+   paddingTop: 15
   },
   item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
+    fontSize: 20,
+    fontFamily: "f1Font",
+    marginBottom: -25
+  },
+  icon:{
+    color: "#F71C01",
+    alignSelf: 'flex-end',
+    alignItems: 'center'
   },
 })

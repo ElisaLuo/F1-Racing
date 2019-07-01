@@ -48,10 +48,10 @@ export default class CurrentQualifyingInfo extends React.Component {
                     <DataTable.Title>Q2</DataTable.Title>
                     <DataTable.Title>Q3</DataTable.Title>
                   </DataTable.Header>
-                  {this.state.results.map(items=>
-                    <DataTable.Row>
+                  {this.state.results.map((items, index)=>
+                    <DataTable.Row key={index}>
                       <DataTable.Cell>{items.position}</DataTable.Cell>
-                      <DataTable.Cell>{items.Driver.code}</DataTable.Cell>
+                      <DataTable.Cell>{items.Driver.familyName}</DataTable.Cell>
                       <DataTable.Cell>{items.Q1}</DataTable.Cell>
                       <DataTable.Cell>{items.Q2}</DataTable.Cell>
                       <DataTable.Cell>{items.Q3}</DataTable.Cell>
