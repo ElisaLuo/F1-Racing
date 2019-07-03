@@ -14,7 +14,7 @@ export default class RaceQualifyingInfo extends React.Component {
         fetch(`https://ergast.com/api/f1/${this.props.navigation.state.params.year}/circuits/${this.props.navigation.state.params.race}/qualifying.json`)
           .then((response) => response.json())
           .then((responseJson) => {
-            console.log("hit")
+            //console.log("hit")
             if(responseJson.MRData.RaceTable.Races[0] == undefined){
               this.setState({
                 results: ["No Results"]

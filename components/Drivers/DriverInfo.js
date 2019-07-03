@@ -9,7 +9,7 @@ export default class DriverInfo extends React.Component {
     super(props);
     this.state ={ 
         basicInfo: [],
-        constructor: [],
+        constructor: "",
         rank: []
     }
   }
@@ -31,8 +31,10 @@ export default class DriverInfo extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
         this.setState({
-          constructor: responseJson.MRData.ConstructorTable.Constructors
-        }, function(){});
+          constructor: responseJson.MRData.ConstructorTable.Constructors[0].name
+        }, function(){
+          console.log(this.state.constructor);
+        });
       })
       .catch((error) =>{
         console.error(error);
@@ -41,6 +43,7 @@ export default class DriverInfo extends React.Component {
       fetch(`https://ergast.com/api/f1/${this.props.navigation.state.params.year}/driverStandings/${this.props.navigation.state.params.position}.json`)
       .then((response) => response.json())
       .then((responseJson) => {
+        //console.log(this.state.constructor);
         this.setState({
           rank: responseJson.MRData.StandingsTable.StandingsLists[0].DriverStandings
         }, function(){});
@@ -57,26 +60,23 @@ export default class DriverInfo extends React.Component {
             keyExtractor={(item, index) => 'key'+index}
             renderItem={({item}) => 
             <View>
-              <Text>{item.givenName} {item.familyName}</Text>
-              <Text style={styles.item}>{item.permanentNumber} {item.code}</Text>
-              <Text>{item.nationality}</Text>
-              <Text>{item.dateOfBirth}</Text>
+              <Text>Name: {item.givenName} {item.familyName}</Text>
+              <Text style={styles.item}>Permanent Number: {item.permanentNumber}</Text>
+              <Text>Driver Code: {item.code}</Text>
+              <Text>Nationality: {item.nationality}</Text>
+              <Text>Date of Birth: {item.dateOfBirth}</Text>
             </View>
             }
           />
-          <FlatList
-            data={this.state.constructor}
-            keyExtractor={(item, index) => 'key'+index}
-            renderItem={({item}) => 
-              <Text>{item.name} {item.nationality}</Text>
-            }
-          />
-
+          <Text>Constructor: {this.state.constructor}</Text>
           <FlatList
             data={this.state.rank}
             keyExtractor={(item, index) => 'key'+index}
             renderItem={({item}) => 
+            <View>
               <Text>{item.position} {item.points} {item.wins}</Text>
+            </View>
+              
             }
           />
         </View>

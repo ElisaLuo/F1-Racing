@@ -1,6 +1,7 @@
 import React from 'react';
 import { FlatList, ActivityIndicator, Text, View, StyleSheet, TouchableHighlight  } from 'react-native';
 import { DataTable } from 'react-native-paper';
+import { AntDesign } from '@expo/vector-icons';
 
 
 export default class ConstructorsPerYear extends React.Component {
@@ -39,7 +40,10 @@ export default class ConstructorsPerYear extends React.Component {
               position: item.position, 
               points: item.points, 
               wins: item.wins})}>
-              <Text style={styles.item}>{item.position} {item.Constructor.name}</Text>
+              <View style={styles.container}>
+                <Text style={styles.item}>{item.Constructor.name}</Text>
+                <AntDesign style={styles.icon} size = {25} name="right" />
+              </View>
             </TouchableHighlight>
             }
           />
@@ -52,11 +56,17 @@ export default class ConstructorsPerYear extends React.Component {
 const styles = StyleSheet.create({
   container: {
    flex: 1,
-   paddingTop: 22
+   padding: 20,
+   paddingTop: 15
   },
   item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
+    fontSize: 20,
+    fontFamily: "f1Font",
+    marginBottom: -25
+  },
+  icon:{
+    color: "#F71C01",
+    alignSelf: 'flex-end',
+    alignItems: 'center'
   },
 })

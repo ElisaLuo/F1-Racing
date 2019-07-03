@@ -122,8 +122,28 @@ const DriverStack = createStackNavigator(
         )
       })
     },
-    DriversPerYear: DriversPerYear,
-    DriverInfo: DriverInfo
+    DriversPerYear: {
+      screen: DriversPerYear,
+      navigationOptions: ({navigation}) =>({
+        title:  navigation.getParam('year', 'Error'),
+        headerTitleStyle:{
+          fontFamily: "f1Font",
+          fontWeight: '200',
+        },
+        headerTintColor: "white"
+      })
+    },
+    DriverInfo: {
+      screen: DriverInfo,
+      navigationOptions: ({navigation}) =>({
+        title:  navigation.getParam('name', 'Error'),
+        headerTitleStyle:{
+          fontFamily: "f1Font",
+          fontWeight: '200',
+        },
+        headerTintColor: "white"
+      })
+    }
   },
   {
     initialRouteName: 'DriversByYears',
@@ -201,8 +221,28 @@ const ConstructorStack = createStackNavigator(
         )
       })
     },
-    ConstructorsPerYear: ConstructorsPerYear,
-    ConstructorInfo: ConstructorInfo
+    ConstructorsPerYear: {
+      screen: ConstructorsPerYear,
+      navigationOptions: ({navigation}) =>({
+        title: navigation.getParam('year', 'Error'),
+        headerTitleStyle:{
+          fontFamily: "f1Font",
+          fontWeight: '200',
+        },
+        headerTintColor: "white"
+      })
+    },
+    ConstructorInfo: {
+      screen: ConstructorInfo,
+      navigationOptions: ({navigation}) =>({
+        title: navigation.getParam('constructorName', 'Error'),
+        headerTitleStyle:{
+          fontFamily: "f1Font",
+          fontWeight: '200',
+        },
+        headerTintColor: "white"
+      })
+    }
   },
   {
     initialRouteName: 'ConstructorsByYear',

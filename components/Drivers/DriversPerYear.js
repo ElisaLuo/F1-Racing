@@ -1,6 +1,7 @@
 import React from 'react';
 import { FlatList, ActivityIndicator, Text, View, StyleSheet, TouchableHighlight  } from 'react-native';
 import { DataTable } from 'react-native-paper';
+import { AntDesign } from '@expo/vector-icons';
 
 
 export default class DriversPerYear extends React.Component {
@@ -32,8 +33,11 @@ export default class DriversPerYear extends React.Component {
             keyExtractor={(item, index) => 'key'+index}
             renderItem={({item}) => 
             <TouchableHighlight
-            onPress={() => this.props.navigation.navigate('DriverInfo', {driver: item.Driver.driverId, year: this.props.navigation.state.params.year, position: item.position})}>
-              <Text style={styles.item}>{item.position} {item.Driver.givenName} {item.Driver.familyName}</Text>
+            onPress={() => this.props.navigation.navigate('DriverInfo', {driver: item.Driver.driverId, year: this.props.navigation.state.params.year, position: item.position, name: item.Driver.givenName + " " + item.Driver.familyName})}>
+              <View style={styles.container}>
+                <Text style={styles.item}>{item.Driver.givenName} {item.Driver.familyName}</Text>
+                <AntDesign style={styles.icon} size = {25} name="right" />
+              </View>
             </TouchableHighlight>
             }
           />
@@ -46,11 +50,17 @@ export default class DriversPerYear extends React.Component {
 const styles = StyleSheet.create({
   container: {
    flex: 1,
-   paddingTop: 22
+   padding: 20,
+   paddingTop: 15
   },
   item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
+    fontSize: 20,
+    fontFamily: "f1Font",
+    marginBottom: -25
+  },
+  icon:{
+    color: "#F71C01",
+    alignSelf: 'flex-end',
+    alignItems: 'center'
   },
 })

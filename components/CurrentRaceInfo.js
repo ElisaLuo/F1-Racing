@@ -17,9 +17,15 @@ export default class CurrentRaceInfo extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
         //console.log(responseJson.MRData.RaceTable.Races[0].Results[0].Time.time);
-        this.setState({
-          results: responseJson.MRData.RaceTable.Races[0].Results
-        }, function(){});
+        if(responseJson.MRData.RaceTable.Races[0] == undefined){
+          this.setState({
+            results: ["No Results"]
+          }, function(){});
+        } else if(responseJson.MRData.RaceTable.Races[0].Results !== undefined){
+          this.setState({
+            results: responseJson.MRData.RaceTable.Races[0].Results
+          }, function(){});
+        }
       })
       .catch((error) =>{
         console.error(error);
@@ -33,6 +39,13 @@ export default class CurrentRaceInfo extends React.Component {
           items.status = items.status;
         }
       })
+      if(this.state.results[0] == "No Results"){
+        return(
+          <View style={{ flex: 1 }}>
+            <Text>Sorry, the race has not started yet</Text>
+          </View>
+        )
+      }
       //console.log(this.state.results[0])
       return (
         <View style={{ flex: 1 }}>
