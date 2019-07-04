@@ -27,33 +27,61 @@ export default class ConstructorInfo extends React.Component {
       }
       render(){
         return(
-          <View style={{flex: 1}}>
-              <Text style={styles.item}> position: {this.props.navigation.state.params.position} {this.props.navigation.state.params.constructorName}</Text>
-              <Text style={styles.item}>points: {this.props.navigation.state.params.points}</Text>
-              <Text style={styles.item}>wins: {this.props.navigation.state.params.wins}</Text>
-
-              <FlatList
-                data={this.state.drivers}
-                keyExtractor={(item, index) => 'key'+index}
-                renderItem={({item}) => 
-                <TouchableHighlight>
-                  <Text style={styles.item}>{item.givenName} {item.familyName}</Text>
-                </TouchableHighlight>
-                }
-              />
+          <View style={{flex: 1, margin: 30}}>
+            <View style={{flexDirection:"row", marginTop: 20}}>
+              <View style={styles.container}>
+                <Text style={styles.title}>Position</Text>
+                <Text style={styles.item}>{this.props.navigation.state.params.position}</Text>
+              </View>
+              <View style={styles.containerRight}>
+                <Text style={styles.title}>Points</Text>
+                <Text style={styles.item}>{this.props.navigation.state.params.points}</Text>
+              </View>
+            </View>
+            <View style={{flexDirection:"row"}}>
+              <View style={styles.container}>
+                <Text style={styles.title}>Total Wins</Text>
+                <Text style={styles.item}>{this.props.navigation.state.params.wins}</Text>
+              </View>
+              <View style={styles.containerRight}>
+                <Text style={styles.title}>Drivers</Text>
+                <View style={styles.item}>
+                <FlatList
+                  data={this.state.drivers}
+                  keyExtractor={(item, index) => 'key'+index}
+                  renderItem={({item}) => 
+                    <Text style={{fontSize: 17}}>{item.givenName} {item.familyName}</Text>
+                  }
+                />
+                </View>
+              </View>
+            </View>
           </View>
         );
       }
 }
 
 const styles = StyleSheet.create({
+  containerRight: {
+   width: 155,
+   marginLeft: 20
+  },
   container: {
-   flex: 1,
-   paddingTop: 22
+    width: 155
+  },
+  title: {
+    padding: 10,
+    fontSize: 20,
+    height: 44,
+    fontFamily: "f1Font",
+    borderBottomColor: '#F71C01',
+    borderBottomWidth: 3,
+    borderRightColor: '#F71C01',
+    borderRightWidth: 3,
+    borderRadius: 7
   },
   item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
+    padding: 20,
+    fontSize: 20
   },
 })

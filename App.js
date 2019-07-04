@@ -235,7 +235,7 @@ const ConstructorStack = createStackNavigator(
     ConstructorInfo: {
       screen: ConstructorInfo,
       navigationOptions: ({navigation}) =>({
-        title: navigation.getParam('constructorName', 'Error'),
+        title: navigation.getParam('year', 'Error') + " " + navigation.getParam('constructorName', 'Error'),
         headerTitleStyle:{
           fontFamily: "f1Font",
           fontWeight: '200',

@@ -10,7 +10,9 @@ export default class DriverInfo extends React.Component {
     this.state ={ 
         basicInfo: [],
         constructor: "",
-        rank: []
+        position: "",
+        points: "",
+        wins: ""
     }
   }
   
@@ -45,7 +47,9 @@ export default class DriverInfo extends React.Component {
       .then((responseJson) => {
         //console.log(this.state.constructor);
         this.setState({
-          rank: responseJson.MRData.StandingsTable.StandingsLists[0].DriverStandings
+          position: responseJson.MRData.StandingsTable.StandingsLists[0].DriverStandings[0].position,
+          points: responseJson.MRData.StandingsTable.StandingsLists[0].DriverStandings[0].points,
+          wins: responseJson.MRData.StandingsTable.StandingsLists[0].DriverStandings[0].wins,
         }, function(){});
       })
       .catch((error) =>{
@@ -54,31 +58,55 @@ export default class DriverInfo extends React.Component {
   }
     render() {
       return (
-        <View style={{ flex: 1 }}>
+        <View style={{flex: 1, margin: 30}}>
           <FlatList
             data={this.state.basicInfo}
             keyExtractor={(item, index) => 'key'+index}
             renderItem={({item}) => 
             <View>
-              <Text>Name: {item.givenName} {item.familyName}</Text>
-              <Text style={styles.item}>Permanent Number: {item.permanentNumber}</Text>
-              <Text>Driver Code: {item.code}</Text>
-              <Text>Nationality: {item.nationality}</Text>
-              <Text>Date of Birth: {item.dateOfBirth}</Text>
+              <View style={{flexDirection:"row", marginTop: 10}}>
+              <View style={styles.container}>
+                  <Text style={styles.title}>Driver Code</Text>
+                  <Text style={styles.item}>{item.code}</Text>
+                </View>
+                <View style={styles.containerRight}>
+                  <Text style={styles.title}>Number</Text>
+                  <Text style={styles.item}>{item.permanentNumber}</Text>
+                </View>
+              </View>
+              <View style={{flexDirection:"row", marginTop: 10}}>
+                <View style={styles.container}>
+                  <Text style={styles.title}>Birth Date</Text>
+                  <Text style={styles.item}>{item.dateOfBirth}</Text>
+                </View>
+                <View style={styles.containerRight}>
+                  <Text style={styles.title}>Nationality</Text>
+                  <Text style={styles.item}>{item.nationality}</Text>
+                </View>
+              </View>
             </View>
             }
           />
-          <Text>Constructor: {this.state.constructor}</Text>
-          <FlatList
-            data={this.state.rank}
-            keyExtractor={(item, index) => 'key'+index}
-            renderItem={({item}) => 
-            <View>
-              <Text>{item.position} {item.points} {item.wins}</Text>
+          <View style={{flexDirection:"row", marginTop: -120}}>
+            <View style={styles.container}>
+              <Text style={styles.title}>Constructor</Text>
+              <Text style={styles.item}>{this.state.constructor}</Text>
             </View>
-              
-            }
-          />
+            <View style={styles.containerRight}>
+              <Text style={styles.title}>Position</Text>
+              <Text style={styles.item}>{this.state.position}</Text>
+            </View>
+          </View>
+          <View style={{flexDirection:"row"}}>
+            <View style={styles.container}>
+              <Text style={styles.title}>Points</Text>
+              <Text style={styles.item}>{this.state.points}</Text>
+            </View>
+            <View style={styles.containerRight}>
+              <Text style={styles.title}>Wins</Text>
+              <Text style={styles.item}>{this.state.wins}</Text>
+            </View>
+          </View>
         </View>
       )
     }
@@ -86,13 +114,26 @@ export default class DriverInfo extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-   flex: 1,
-   paddingTop: 22
+  containerRight: {
+   width: 155,
+   marginLeft: 20
   },
-  item: {
+  container: {
+    width: 155
+  },
+  title: {
     padding: 10,
     fontSize: 18,
     height: 44,
+    fontFamily: "f1Font",
+    borderBottomColor: '#F71C01',
+    borderBottomWidth: 3,
+    borderRightColor: '#F71C01',
+    borderRightWidth: 3,
+    borderRadius: 7
+  },
+  item: {
+    padding: 20,
+    fontSize: 20
   },
 })
