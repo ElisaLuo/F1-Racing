@@ -2,6 +2,7 @@ import React from 'react';
 import { FlatList, ActivityIndicator, Text, View, StyleSheet, TouchableHighlight  } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import { Item } from 'native-base';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 
 export default class DriverInfo extends React.Component {
@@ -12,7 +13,8 @@ export default class DriverInfo extends React.Component {
         constructor: "",
         position: "",
         points: "",
-        wins: ""
+        wins: "",
+        loading: true
     }
   }
   
@@ -23,7 +25,11 @@ export default class DriverInfo extends React.Component {
       .then((responseJson) => {
         this.setState({
           basicInfo: responseJson.MRData.DriverTable.Drivers,
-        }, function(){});
+        }, function(){
+          this.setState({
+            loading: false
+          })
+        });
       })
       .catch((error) =>{
         console.error(error);
@@ -59,6 +65,9 @@ export default class DriverInfo extends React.Component {
     render() {
       return (
         <View style={{flex: 1, margin: 30}}>
+          <Spinner
+            visible={this.state.loading}
+          />
           <FlatList
             data={this.state.basicInfo}
             keyExtractor={(item, index) => 'key'+index}
@@ -87,7 +96,7 @@ export default class DriverInfo extends React.Component {
             </View>
             }
           />
-          <View style={{flexDirection:"row", marginTop: -120}}>
+          <View style={{flexDirection:"row", marginTop: -150}}>
             <View style={styles.container}>
               <Text style={styles.title}>Constructor</Text>
               <Text style={styles.item}>{this.state.constructor}</Text>

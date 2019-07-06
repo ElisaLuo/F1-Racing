@@ -2,13 +2,15 @@ import React from 'react';
 import { FlatList, ActivityIndicator, Text, View, StyleSheet, TouchableHighlight  } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import { AntDesign } from '@expo/vector-icons';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 
 export default class DriversPerYear extends React.Component {
   constructor(props){
     super(props);
     this.state ={ 
-        drivers: []
+        drivers: [],
+        loading: true
     }
   }
   
@@ -19,7 +21,11 @@ export default class DriversPerYear extends React.Component {
       .then((responseJson) => {
         this.setState({
           drivers: responseJson.MRData.StandingsTable.StandingsLists[0].DriverStandings
-        }, function(){});
+        }, function(){
+          this.setState({
+            loading: false
+          })
+        });
       })
       .catch((error) =>{
         console.error(error);
@@ -28,6 +34,9 @@ export default class DriversPerYear extends React.Component {
     render() {
       return (
         <View style={{ flex: 1 }}>
+          <Spinner
+            visible={this.state.loading}
+          />
           <FlatList
             data={this.state.drivers}
             keyExtractor={(item, index) => 'key'+index}

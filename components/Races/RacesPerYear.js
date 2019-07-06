@@ -1,13 +1,15 @@
 import React from 'react';
 import { FlatList, ActivityIndicator, Text, View, StyleSheet, TouchableHighlight  } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 
 export default class RacesPerYear extends React.Component {
   constructor(props){
     super(props);
     this.state ={ 
-        races: []
+        races: [],
+        loading: true
     }
   }
   
@@ -19,7 +21,11 @@ export default class RacesPerYear extends React.Component {
         //console.log(responseJson.MRData.RaceTable.Races);
         this.setState({
           races: responseJson.MRData.RaceTable.Races
-        }, function(){});
+        }, function(){
+          this.setState({
+            loading: false
+          })
+        });
       })
       .catch((error) =>{
         console.error(error);
@@ -34,6 +40,9 @@ export default class RacesPerYear extends React.Component {
       })
       return (
         <View style={{ flex: 1 }}>
+          <Spinner
+            visible={this.state.loading}
+          />
           <FlatList
             data={this.state.races}
             keyExtractor={(item, index) => 'key'+index}

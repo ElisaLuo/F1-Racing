@@ -1,12 +1,14 @@
 import React from 'react';
 import { FlatList, ActivityIndicator, Text, View, StyleSheet, TouchableHighlight, ScrollView  } from 'react-native';
 import { DataTable } from 'react-native-paper';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export default class CurrentQualifyingInfo extends React.Component {
     constructor(props){
         super(props);
         this.state ={ 
-            results: []
+            results: [],
+            loading: true
         }
       }
       
@@ -19,11 +21,19 @@ export default class CurrentQualifyingInfo extends React.Component {
             if(responseJson.MRData.RaceTable.Races[0] == undefined){
               this.setState({
                 results: ["No Results"]
-              }, function(){});
+              }, function(){
+                this.setState({
+                  loading: false
+                })
+              });
             } else if(responseJson.MRData.RaceTable.Races[0].QualifyingResults !== undefined){
               this.setState({
                 results: responseJson.MRData.RaceTable.Races[0].QualifyingResults
-              }, function(){});
+              }, function(){
+                this.setState({
+                  loading: false
+                })
+              });
             }
           })
           .catch((error) =>{
@@ -45,14 +55,17 @@ export default class CurrentQualifyingInfo extends React.Component {
 
           if(this.state.results[0] == "No Results"){
             return(
-              <View style={{ flex: 1 }}>
+              <View style={{ flex: 1, textAlign: 'center' }}>
                 <Text>Sorry, the race has not started yet</Text>
               </View>
             )
           }
           //console.log(this.state.results[0])
           return (
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, textAlign: 'center' }}>
+            <Spinner
+              visible={this.state.loading}
+            />
               <ScrollView>
                 <DataTable>
                   <DataTable.Header>

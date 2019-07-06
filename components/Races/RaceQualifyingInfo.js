@@ -1,12 +1,14 @@
 import React from 'react';
 import { FlatList, ActivityIndicator, Text, View, StyleSheet, TouchableHighlight, ScrollView  } from 'react-native';
 import { DataTable } from 'react-native-paper';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export default class RaceQualifyingInfo extends React.Component {
     constructor(props){
         super(props);
         this.state ={ 
-            results: []
+            results: [],
+            loading: true
         }
       }
       
@@ -18,11 +20,19 @@ export default class RaceQualifyingInfo extends React.Component {
             if(responseJson.MRData.RaceTable.Races[0] == undefined){
               this.setState({
                 results: ["No Results"]
-              }, function(){});
+              }, function(){
+                this.setState({
+                  loading: false
+                })
+              });
             } else if(responseJson.MRData.RaceTable.Races[0].QualifyingResults !== undefined){
               this.setState({
                 results: responseJson.MRData.RaceTable.Races[0].QualifyingResults
-              }, function(){});
+              }, function(){
+                this.setState({
+                  loading: false
+                })
+              });
             }
           })
           .catch((error) =>{
@@ -50,6 +60,9 @@ export default class RaceQualifyingInfo extends React.Component {
           }
           return (
             <View style={{ flex: 1 }}>
+            <Spinner
+              visible={this.state.loading}
+            />
               <ScrollView>
                 <DataTable>
                   <DataTable.Header>

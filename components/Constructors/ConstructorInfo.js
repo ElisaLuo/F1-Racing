@@ -1,12 +1,14 @@
 import React from 'react';
 import { FlatList, ActivityIndicator, Text, View, Button, TouchableHighlight, StyleSheet  } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 
 export default class ConstructorInfo extends React.Component {
     constructor(props){
         super(props);
         this.state ={
-            drivers: []
+            drivers: [],
+            loading: true
         }
       }
 
@@ -19,6 +21,9 @@ export default class ConstructorInfo extends React.Component {
             this.setState({
               drivers: responseJson.MRData.DriverTable.Drivers
             }, function(){
+              this.setState({
+                loading: false
+              })
             });
           })
           .catch((error) =>{
@@ -28,6 +33,9 @@ export default class ConstructorInfo extends React.Component {
       render(){
         return(
           <View style={{flex: 1, margin: 30}}>
+            <Spinner
+              visible={this.state.loading}
+            />
             <View style={{flexDirection:"row", marginTop: 20}}>
               <View style={styles.container}>
                 <Text style={styles.title}>Position</Text>
